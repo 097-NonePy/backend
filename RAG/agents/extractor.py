@@ -11,9 +11,17 @@ from langchain_openai import ChatOpenAI
 class ExtractQuery(BaseModel):
     """Route a user query to the relevant datasources with subquestions."""
 
-    vector_search_query: str = Field(
+    namal_vector_search_query: str = Field(
         ...,
-        description="The query to search the vector store.",
+        description="The query to search the vector store of namal.",
+    )
+    ranil_vector_search_query: str = Field(
+        ...,
+        description="The query to search the vector store of ranil.",
+    )
+    sajith_vector_search_query: str = Field(
+        ...,
+        description="The query to search the vector store of sajith.",
     )
     web_search_query: str = Field(
         ...,
@@ -25,15 +33,20 @@ structured_llm_router = llm.with_structured_output(ExtractQuery)
 
 # Prompt
 system = """You are an expert at routing a user question to a vectorstore or web search.
-The vectorstore contains documents related to Manifests of political candidate Sajith Premadasa.
+There are three vectorstores. One contains documents related to Manifests of political candidate Sajith Premadasa.
+Another contains documents related to Manifests of political candidate Namal Rajapaksa.
+The third contains documents related to Manifests of political candidate Ranil Wickramasinghe.
+
 for an example, what this candidate do for education sector, health sector etc is on the vectorstore.
 And also their plans for the future of the country is on the vectorstore.
 
-If the question involves something about sajith's policies in a past year, then you will have to search.
+If the question involves something about a candidate's policies in a past year, then you will have to do a websearch.
 And also if you feel like a web search will be usefull. Do a web search.
 
 After deciding,
-Output the 'vector_search_query': The query that needs to be searched from the vector store.
+Output the 'namal_vector_search_query': The query that needs to be searched from the vector store of namal.
+And the 'ranil_vector_search_query': The query that needs to be searched from the vector store of ranil.
+And the 'sajith_vector_search_query': The query that needs to be searched from the vector store of sajith.
 And the 'web_search_query': The query that needs to be searched from the web.
 """
 route_prompt = ChatPromptTemplate.from_messages(

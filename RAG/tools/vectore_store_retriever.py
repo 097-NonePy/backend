@@ -7,14 +7,13 @@ file_name_to_source = {
     "ranil.txt": "ranil",
     "sajith.txt": "sajith",
 }
-
 docs = []
 
 for file_name in file_names:
     loader = TextLoader(f"documents/{file_name}") 
     doc = loader.load()
     for d in doc:
-        d.metadata = {"file_name": file_name}
+        d.metadata = {"file_name": file_name, "source": file_name_to_source[file_name]}
         docs.append(d)
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -31,4 +30,6 @@ vectorstore = Chroma.from_documents(
     documents=all_splits, embedding=OpenAIEmbeddings(), persist_directory="./vectore_stores/manifesto_vectorstore",
 )
 
-retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6})
+sajith_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "sajith"}})
+namal_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "namal"}})
+ranil_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "ranil"}})

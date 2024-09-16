@@ -14,9 +14,12 @@ def web_search(state):
 
     print("---WEB SEARCH---")
     search_query = state["web_search_query"]
+    if search_query == "":
+        return {"web_search_documents": []}
 
     # Web search
     docs = web_search_tool.invoke({"query": search_query})
+    print(docs)
     web_results = [d["content"] for d in docs]
     # web_results = Document(page_content=web_results)
 
