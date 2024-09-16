@@ -1,0 +1,4 @@
+*.pyc
+__pycache__
+vectore_stores
+sajith_vectorstore
