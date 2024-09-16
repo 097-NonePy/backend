@@ -1,11 +1,10 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_openai import ChatOpenAI
-
-# LLM
-llm = ChatOpenAI(model="gpt4-o-mini", temperature=0)
+from pydantic import BaseModel  , Field
+from langchain_mistralai import ChatMistralAI
+import os
+llm = ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRAL_API_KEY"))
 
 # Prompt
 system = """You a question re-writer that converts an input question to a better version that is optimized \n 

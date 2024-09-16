@@ -12,7 +12,7 @@ def extract_queries(state):
     """
 
     print("---EXTRACT QUERIES---")
-    question = state["question"]
+    question = state["question_contextualized"]
     source = question_extractor.invoke({"question": question})
     
     return {

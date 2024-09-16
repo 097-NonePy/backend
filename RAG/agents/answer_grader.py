@@ -1,9 +1,10 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_openai import ChatOpenAI
-
+from pydantic import BaseModel  , Field
+from langchain_mistralai import ChatMistralAI
+import os
+os.environ["MISTRAL_API_KEY"] = "naAG2SIBHoKW5KtKS7B2MN5z49roSnzV"
 
 # Data model
 class GradeAnswer(BaseModel):
@@ -15,7 +16,7 @@ class GradeAnswer(BaseModel):
 
 
 # LLM with function call
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRAL_API_KEY"))
 structured_llm_grader = llm.with_structured_output(GradeAnswer)
 
 # Prompt

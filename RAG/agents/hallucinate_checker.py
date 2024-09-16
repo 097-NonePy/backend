@@ -1,9 +1,8 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_openai import ChatOpenAI
-
+from pydantic import BaseModel  , Field
+from langchain_mistralai import ChatMistralAI
 class GradeHallucinations(BaseModel):
     """Binary score for hallucination present in generation answer."""
 
@@ -11,9 +10,9 @@ class GradeHallucinations(BaseModel):
         description="Answer is grounded in the facts, 'yes' or 'no'"
     )
 
-
+import os
 # LLM with function call
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRAL_API_KEY"))
 structured_llm_grader = llm.with_structured_output(GradeHallucinations)
 
 # Prompt

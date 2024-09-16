@@ -1,7 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_openai import ChatOpenAI
-
+from pydantic import BaseModel  , Field
+from langchain_mistralai import ChatMistralAI
+import os
 
 class GradeDocuments(BaseModel):
     """Binary score for relevance check on retrieved documents."""
@@ -11,7 +11,7 @@ class GradeDocuments(BaseModel):
     )
 
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatMistralAI(model="mistral-large-latest", api_key=os.getenv("MISTRAL_API_KEY"))
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
 # Prompt

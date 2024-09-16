@@ -3,10 +3,10 @@
 from typing import Literal
 
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.pydantic_v1 import BaseModel, Field
-from langchain_openai import ChatOpenAI
-
-
+from pydantic import BaseModel  , Field
+from langchain_mistralai import ChatMistralAI
+from dotenv import load_dotenv
+import os
 # Data model
 class ExtractQuery(BaseModel):
     """Route a user query to the relevant datasources with subquestions."""
@@ -28,7 +28,14 @@ class ExtractQuery(BaseModel):
         description="The query to search the web.",
     )
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+load_dotenv()
+mistral_api_key = os.getenv("MISTRAL_API_KEY")
+
+if not mistral_api_key:
+    raise ValueError("MISTRAL_API_KEY environment variable not set")
+
+# Initialize the ChatMistralAI client with the API key
+llm = ChatMistralAI(model="mistral-large-latest", api_key=mistral_api_key)
 structured_llm_router = llm.with_structured_output(ExtractQuery)
 
 # Prompt
