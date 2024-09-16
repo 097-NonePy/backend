@@ -13,17 +13,23 @@ def generate(state):
     print("---GENERATE---")
     question = state["question"]
     web_documents = state["web_search_documents"]
-    vector_documents = state["vector_search_documents"]
-
-    documents = web_documents + vector_documents
+    namal_vector_documents = state["namal_vector_search_documents"]
+    ranil_vector_documents = state["ranil_vector_search_documents"]
+    sajith_vector_documents = state["sajith_vector_search_documents"]
 
     # RAG generation
-    generation = rag_chain.invoke({"context": documents, "question": question})
+    generation = rag_chain.invoke(
+        {
+            "web_context": web_documents,
+            "namal_context": namal_vector_documents, 
+            "ranil_context": ranil_vector_documents, 
+            "sajith_context": sajith_vector_documents, 
+            "question": question
+        }
+    )
 
     generated_count = state.get("generated_count", 0) + 1
     return {
-        "web_search_documents": web_documents, 
-        "vector_search_documents": vector_documents, 
         "question": question, 
         "generation": generation,
         "generated_count": generated_count

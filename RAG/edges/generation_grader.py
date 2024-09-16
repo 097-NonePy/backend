@@ -14,7 +14,7 @@ def grade_generation_v_documents_and_question(state):
 
     print("---CHECK HALLUCINATIONS---")
     question = state["question"]
-    documents = state["vector_search_documents"] + state["web_search_documents"]
+    documents = state["namal_vector_search_documents"] + state["ranil_vector_search_documents"] + state["sajith_vector_search_documents"] + state["web_search_documents"]
     generation = state["generation"]
 
     score = hallucination_grader.invoke(

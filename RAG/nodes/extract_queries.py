@@ -16,7 +16,9 @@ def extract_queries(state):
     source = question_extractor.invoke({"question": question})
     
     return {
-        "vector_search_query": source.vector_search_query, 
+        "namal_vector_search_query": source.namal_vector_search_query, 
+        "ranil_vector_search_query": source.ranil_vector_search_query,
+        "sajith_vector_search_query": source.sajith_vector_search_query,
         "web_search_query": source.web_search_query,
         "question": question
         }

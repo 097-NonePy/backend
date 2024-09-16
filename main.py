@@ -13,7 +13,7 @@ async def test():
 
     # Run
     inputs = {
-        "question": "What is the differnce between sajith premadasa's actions for the health sector in this election and previous 2019 election?"
+        "question": "What is the differnce between sajith premadasa's actions for the health sector and ranil wickramasinghe's actions for the health sector?"
     }
 
     for output in rag_app.stream(inputs):
@@ -26,4 +26,4 @@ async def test():
 
     # Final generation
     pprint(value["generation"])
-    return value
+    return value["generation"]
