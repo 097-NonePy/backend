@@ -13,13 +13,14 @@ def generate(state):
         state (dict): New key added to state, generation, that contains LLM generation
     """
     print("---GENERATE---")
-    question = state["contextualized_question"]
+    question = state["question"]
+    # question = state["contextualized_question"]
     web_documents = state["web_search_documents"]
     namal_vector_documents = state["namal_vector_search_documents"]
     ranil_vector_documents = state["ranil_vector_search_documents"]
     sajith_vector_documents = state["sajith_vector_search_documents"]
-    chat_history = state["chat_history"]
-    print(chat_history)
+    # chat_history = state["chat_history"]
+    # print(chat_history)
     # RAG generation
     generation = rag_chain.invoke(
         {
@@ -28,11 +29,11 @@ def generate(state):
             "ranil_context": ranil_vector_documents, 
             "sajith_context": sajith_vector_documents, 
             "question": question,
-            "chat_history": chat_history
+            # "chat_history": chat_history
         }
     )
 
-    state["chat_history"].append(AIMessage(content=generation))
+    # state["chat_history"].append(AIMessage(content=generation))
     generated_count = state.get("generated_count", 0) + 1
 
     return {

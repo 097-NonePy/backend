@@ -14,27 +14,66 @@ from langchain_mistralai import ChatMistralAI
 from dotenv import load_dotenv
 from langgraph.checkpoint.memory import MemorySaver
 
-
 workflow = StateGraph(GraphState)
 
-# Initialize the graph state
-# def init_graph_state():
-#     return {
-#         "chat_history": InMemoryChatMessageHistory(),
-#     }
-
-# workflow.set_initial_state(init_graph_state)
-
-workflow.add_node("contextualize", contextualize)
+workflow.add_node("web_search", web_search)  # web search
+workflow.add_node("retrieve", retrieve)  # retrieve
+workflow.add_node("generate", generate)  # generatae
+workflow.add_node("transform_query", transform_query)  # transform_query
 workflow.add_node("extract queries", extract_queries)
+
+workflow.add_edge(START, "extract queries")
+workflow.add_edge("extract queries", "web_search")
+workflow.add_edge("extract queries", "retrieve")
+
+workflow.add_edge(["web_search", "retrieve"], "generate")
+
+workflow.add_conditional_edges(
+    "generate",
+    grade_generation_v_documents_and_question,
+    {
+        "not supported": "generate",
+        "useful": END,
+        "not useful": "transform_query",
+    },
+)
+
+workflow.add_edge("transform_query", "extract queries")
+
+from langgraph.checkpoint.memory import MemorySaver
+
+memory = MemorySaver()
+app = workflow.compile(checkpointer=memory)
+
+try:
+    graph_image = app.get_graph(xray=True).draw_mermaid_png()
+    with open("graph_image.png", "wb") as f:
+        f.write(graph_image)
+except Exception:
+    # This requires some extra dependencies and is optional
+    pass
+  
+# workflow = StateGraph(GraphState)
+
+# # Initialize the graph state
+# # def init_graph_state():
+# #     return {
+# #         "chat_history": InMemoryChatMessageHistory(),
+# #     }
+
+# # workflow.set_initial_state(init_graph_state)
+
+# # workflow.add_node("contextualize", contextualize)
+# workflow.add_node("extract queries", extract_queries)
 # workflow.add_node("web_search", web_search)
 # workflow.add_node("retrieve", retrieve)
 # workflow.add_node("generate", generate)
 # workflow.add_node("transform_query", transform_query)
 
-workflow.add_edge(START, "contextualize")
-workflow.add_edge("contextualize", "extract queries")
-workflow.add_edge("extract queries", END)
+# # workflow.add_edge(START, "contextualize")
+# workflow.add_edge(START, "extract_queries")
+# # workflow.add_edge("contextualize", "extract queries")
+# # workflow.add_edge("extract queries", END)
 # workflow.add_edge("extract queries", "web_search")
 # workflow.add_edge("extract queries", "retrieve")
 # workflow.add_edge(["web_search", "retrieve"], "generate")
@@ -51,18 +90,18 @@ workflow.add_edge("extract queries", END)
 
 # workflow.add_edge("transform_query", "extract queries")
 
-checkpointer = MemorySaver()
-app = workflow.compile(checkpointer=checkpointer)
+# checkpointer = MemorySaver()
+# app = workflow.compile(checkpointer=checkpointer)
 
-config = {"configurable": {"thread_id": "1"}}
+# # config = {"configurable": {"thread_id": "1"}}
 
-# Usage
-# load_dotenv()
-# mistral_api_key = os.getenv("MISTRAL_API_KEY")
+# # Usage
+# # load_dotenv()
+# # mistral_api_key = os.getenv("MISTRAL_API_KEY")
 
-# if not mistral_api_key:
-#     raise ValueError("MISTRAL_API_KEY environment variable not set")
+# # if not mistral_api_key:
+# #     raise ValueError("MISTRAL_API_KEY environment variable not set")
 
-# # Initialize the ChatMistralAI client with the API key
-# llm = ChatMistralAI(model="mistral-large-latest", api_key=mistral_api_key)
-# app = create_workflow(llm)  # Pass your LLM instance here
+# # # Initialize the ChatMistralAI client with the API key
+# # llm = ChatMistralAI(model="mistral-large-latest", api_key=mistral_api_key)
+# # app = create_workflow(llm)  # Pass your LLM instance here
