@@ -11,15 +11,9 @@ def contextualize_question(state):
 
     question = state["question"]
     chat_history = state["chat_history"]
- 
-    print(chat_history)
-
     result = contextualizer.invoke({"input": question, "chat_history": chat_history})
-    print("contextualised result", result.contextualized_question)
 
     return {
         "contextualized_question": result.contextualized_question,
-        "question": question,
-        # "state": state
     }
     

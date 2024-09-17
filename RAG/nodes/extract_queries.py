@@ -14,20 +14,14 @@ def extract_queries(state):
     """
 
     print("---EXTRACT QUERIES---")
-    question = state["contextualized_question"]
-    # question = state["contextualized_question"]
-    # state["chat_history"].append(HumanMessage(content=question))
-    print("chat_history", state["chat_history"])
-    # config = {"configurable": {"thread_id": 1}}
-    # print(app.get_state(config=config))
-    
-    source = question_extractor.invoke({"question": question})
+
+    contextualized_question = state["contextualized_question"]
+    source = question_extractor.invoke({"question": contextualized_question})
     
     return {
         "namal_vector_search_query": source.namal_vector_search_query, 
         "ranil_vector_search_query": source.ranil_vector_search_query,
         "sajith_vector_search_query": source.sajith_vector_search_query,
         "web_search_query": source.web_search_query,
-        "question": question,
-        # "state": state
+        "question": contextualized_question,
         }

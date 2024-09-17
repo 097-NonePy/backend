@@ -13,7 +13,7 @@ def retrieve(state):
         state (dict): New key added to state, documents, that contains retrieved documents
     """
     print("---RETRIEVE---")
-    print(state)
+
     namal_vector_search_query = state["namal_vector_search_query"]
     ranil_vector_search_query = state["ranil_vector_search_query"]
     sajith_vector_search_query = state["sajith_vector_search_query"]

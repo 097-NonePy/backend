@@ -12,6 +12,7 @@ def grade_documents(state):
     """
 
     print("---CHECK DOCUMENT RELEVANCE TO QUESTION---")
+    
     question = state["question"]
     documents = state["documents"]
 
