@@ -14,11 +14,15 @@ class ContextualizeQuestion(BaseModel):
   )
 
 contextualize_q_system_prompt = (
-    "Given a chat history and the latest user question "
+    "Given a chat history and the latest user question, "
     "which might reference context in the chat history, "
-    "formulate a standalone question which can be understood "
-    "without the chat history. Do NOT answer the question, "
-    "just reformulate it if needed and otherwise return it as is."
+    "formulate a standalone question that can be understood "
+    "without the chat history. Specifically:"
+    "\n1. Replace pronouns (e.g., 'he', 'she', 'it', 'they') with their specific referents."
+    "\n2. Expand references like 'that', 'this', 'those' to what they specifically refer to."
+    "\n3. Include any relevant context from previous messages that's necessary to understand the question."
+    "\n4. Ensure the reformulated question is clear, specific, and self-contained."
+    "\nDo NOT answer the question, just reformulate it to be self-explanatory."
 )
 
 load_dotenv()

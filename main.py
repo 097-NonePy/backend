@@ -149,10 +149,10 @@ async def chat(request: dict):
     # Final generation
     # pprint(value["generation"])
     # return {"answer": value["generation"]}
-    if final_output and "generation" in final_output:
+    # if final_output and "generation" in final_output:
         # Add the interaction to memory
-        memory.chat_memory.add_user_message(question)
-        memory.chat_memory.add_ai_message(final_output["generation"])
+    memory.chat_memory.add_user_message(question)
+        # memory.chat_memory.add_ai_message(final_output["generation"])
     return value
 
 if __name__ == "__main__":
