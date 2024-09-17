@@ -43,7 +43,7 @@ async def test():
 @app.post("/compare")
 async def compare(request: dict):
     from pprint import pprint
-    
+
     instructions = request.get("instructions")
     field = request.get("field")
 
@@ -78,8 +78,31 @@ async def compare(request: dict):
     inputs = {
         "question": question
     }
-
+    
     for output in rag_app.stream(inputs):
+        for key, value in output.items():
+            pprint(f"Node '{key}':")
+            pprint(value, indent=2, width=80, depth=None)
+        pprint("\n---\n")
+
+    # Final generation
+    pprint(value["generation"])
+    return {"answer": value["generation"]}
+
+@app.post("/chat")
+async def chat(request: dict):
+    from pprint import pprint
+    question = request.get("question")
+    thread_id = request.get("thread_id")
+
+    print(question)
+
+    inputs = {
+        "question": question
+    }
+
+    config = {"configurable": {"thread_id": thread_id}}
+    for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             pprint(f"Node '{key}':")
             pprint(value, indent=2, width=80, depth=None)
