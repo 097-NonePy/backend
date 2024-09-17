@@ -1,6 +1,7 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from dotenv import load_dotenv
 from RAG.agents.contextualize import contextualizer
+from RAG.graph_state import GraphState
 import os
 
 contextualize_q_system_prompt = (
@@ -25,6 +26,7 @@ def contextualize_question(state):
     contextualized_question = contextualizer.invoke({"input": question, "chat_history": chat_history})
     return {
         "contextualized_question": contextualized_question,
-        "question": question
+        "question": question,
+        "state": state
     }
     

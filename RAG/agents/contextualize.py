@@ -1,5 +1,4 @@
-from langchain.prompts import ChatPromptTemplate
-from langchain.schema import MessagesPlaceholder
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from pydantic import BaseModel  , Field
 from langchain_mistralai import ChatMistralAI
 from dotenv import load_dotenv

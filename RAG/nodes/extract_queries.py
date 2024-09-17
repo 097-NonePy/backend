@@ -12,7 +12,9 @@ def extract_queries(state):
     """
 
     print("---EXTRACT QUERIES---")
-    question = state["question_contextualized"]
+    question = state["contextualized_question"]
+    print(state["question"])
+    print(question)
     source = question_extractor.invoke({"question": question})
     
     return {
@@ -20,5 +22,6 @@ def extract_queries(state):
         "ranil_vector_search_query": source.ranil_vector_search_query,
         "sajith_vector_search_query": source.sajith_vector_search_query,
         "web_search_query": source.web_search_query,
-        "question": question
+        "question": question,
+        "state": state
         }

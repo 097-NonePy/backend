@@ -10,17 +10,19 @@ from RAG.edges.generation_grader import grade_generation_v_documents_and_questio
 from langchain_core.chat_history import InMemoryChatMessageHistory
 import os
 import uuid
+from langchain_mistralai import ChatMistralAI
+from dotenv import load_dotenv
 
 def create_workflow(llm):
     workflow = StateGraph(GraphState)
 
     # Initialize the graph state
-    def init_graph_state():
-        return {
-            "chat_history": InMemoryChatMessageHistory(),
-        }
+    # def init_graph_state():
+    #     return {
+    #         "chat_history": InMemoryChatMessageHistory(),
+    #     }
 
-    workflow.set_initial_state(init_graph_state)
+    # workflow.set_initial_state(init_graph_state)
 
     workflow.add_node("contextualize", contextualize)
     workflow.add_node("extract queries", extract_queries)

@@ -1,6 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module="transformers.tokenization_utils_base")
 
+
 from fastapi import FastAPI, Request
 from RAG.graph import app as rag_app
 
@@ -41,7 +42,6 @@ async def process(request: Request):
 
     data = await request.json()
     question = data.get("question", "")
-
     # Run
     inputs = {
         "question": question

@@ -1,5 +1,6 @@
 from RAG.agents.generate import rag_chain
-from langchain.memory import ChatMessageHistory
+from langchain_core.chat_history import InMemoryChatMessageHistory
+
 
 def generate(state):
     """
@@ -33,6 +34,7 @@ def generate(state):
 
     chat_history.add_user_message(question)
     chat_history.add_ai_message(generation)
+    state["chat_history"] = chat_history
 
     generated_count = state.get("generated_count", 0) + 1
     return {
@@ -40,5 +42,5 @@ def generate(state):
         "contextualized_question": question, 
         "generation": generation,
         "generated_count": generated_count,
-        "chat_history": chat_history
+        "state": state
     }
