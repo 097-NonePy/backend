@@ -18,32 +18,31 @@ from langgraph.checkpoint.memory import MemorySaver
 
 workflow = StateGraph(GraphState)
 
-# workflow.add_node("web_search", web_search)  # web search
-# workflow.add_node("retrieve", retrieve)  # retrieve
-# workflow.add_node("generate", generate)  # generatae
-# workflow.add_node("transform_query", transform_query)  # transform_query
+workflow.add_node("web_search", web_search)  # web search
+workflow.add_node("retrieve", retrieve)  # retrieve
+workflow.add_node("generate", generate)  # generatae
+workflow.add_node("transform_query", transform_query)  # transform_query
 workflow.add_node("contextualize", contextualize)
 workflow.add_node("extract queries", extract_queries)
 
 workflow.add_edge(START, "contextualize")
 workflow.add_edge("contextualize", "extract queries")
-workflow.add_edge("extract queries", END)
-# workflow.add_edge("extract queries", "web_search")
-# workflow.add_edge("extract queries", "retrieve")
+workflow.add_edge("extract queries", "web_search")
+workflow.add_edge("extract queries", "retrieve")
 
-# workflow.add_edge(["web_search", "retrieve"], "generate")
+workflow.add_edge(["web_search", "retrieve"], "generate")
 
-# workflow.add_conditional_edges(
-#     "generate",
-#     grade_generation_v_documents_and_question,
-#     {
-#         "not supported": "generate",
-#         "useful": END,
-#         "not useful": "transform_query",
-#     },
-# )
+workflow.add_conditional_edges(
+    "generate",
+    grade_generation_v_documents_and_question,
+    {
+        "not supported": "generate",
+        "useful": END,
+        "not useful": "transform_query",
+    },
+)
 
-# workflow.add_edge("transform_query", "extract queries")
+workflow.add_edge("transform_query", "extract queries")
 
 from langgraph.checkpoint.memory import MemorySaver
 
