@@ -36,7 +36,10 @@ workflow.add_conditional_edges(
 
 workflow.add_edge("transform_query", "extract queries")
 
-app = workflow.compile()
+from langgraph.checkpoint.memory import MemorySaver
+
+memory = MemorySaver()
+app = workflow.compile(checkpointer=memory)
 
 try:
     graph_image = app.get_graph(xray=True).draw_mermaid_png()
