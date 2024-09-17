@@ -1,9 +1,10 @@
 from typing import List, Dict
-# from langchain_core.messages.base import BaseMessage
+from langchain_core.messages.base import BaseMessage
 # from langchain_core.chat_history import InMemoryChatMessageHistory
 from typing_extensions import TypedDict, Annotated
 from langgraph.graph.message import add_messages
 from langchain_core.messages import HumanMessage, AIMessage
+from langchain.memory import ConversationBufferMemory
 
 class Message(TypedDict):
     role: str
@@ -33,4 +34,4 @@ class GraphState(TypedDict):
     web_search_documents: List[str]
 
     generated_count: int
-    chat_history: Annotated[list[HumanMessage | AIMessage], add_messages]
+    chat_history: Annotated[List[BaseMessage], add_messages]

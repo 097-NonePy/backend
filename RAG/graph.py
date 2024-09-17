@@ -8,6 +8,8 @@ from RAG.nodes.transform import transform_query
 from RAG.nodes.contextualize_query import contextualize_question as contextualize
 from RAG.edges.generation_grader import grade_generation_v_documents_and_question
 from langchain_core.chat_history import InMemoryChatMessageHistory
+
+
 import os
 # import uuid
 from langchain_mistralai import ChatMistralAI
@@ -16,29 +18,32 @@ from langgraph.checkpoint.memory import MemorySaver
 
 workflow = StateGraph(GraphState)
 
-workflow.add_node("web_search", web_search)  # web search
-workflow.add_node("retrieve", retrieve)  # retrieve
-workflow.add_node("generate", generate)  # generatae
-workflow.add_node("transform_query", transform_query)  # transform_query
+# workflow.add_node("web_search", web_search)  # web search
+# workflow.add_node("retrieve", retrieve)  # retrieve
+# workflow.add_node("generate", generate)  # generatae
+# workflow.add_node("transform_query", transform_query)  # transform_query
+workflow.add_node("contextualize", contextualize)
 workflow.add_node("extract queries", extract_queries)
 
-workflow.add_edge(START, "extract queries")
-workflow.add_edge("extract queries", "web_search")
-workflow.add_edge("extract queries", "retrieve")
+workflow.add_edge(START, "contextualize")
+workflow.add_edge("contextualize", "extract queries")
+workflow.add_edge("extract queries", END)
+# workflow.add_edge("extract queries", "web_search")
+# workflow.add_edge("extract queries", "retrieve")
 
-workflow.add_edge(["web_search", "retrieve"], "generate")
+# workflow.add_edge(["web_search", "retrieve"], "generate")
 
-workflow.add_conditional_edges(
-    "generate",
-    grade_generation_v_documents_and_question,
-    {
-        "not supported": "generate",
-        "useful": END,
-        "not useful": "transform_query",
-    },
-)
+# workflow.add_conditional_edges(
+#     "generate",
+#     grade_generation_v_documents_and_question,
+#     {
+#         "not supported": "generate",
+#         "useful": END,
+#         "not useful": "transform_query",
+#     },
+# )
 
-workflow.add_edge("transform_query", "extract queries")
+# workflow.add_edge("transform_query", "extract queries")
 
 from langgraph.checkpoint.memory import MemorySaver
 
@@ -50,7 +55,6 @@ try:
     with open("graph_image.png", "wb") as f:
         f.write(graph_image)
 except Exception:
-    # This requires some extra dependencies and is optional
     pass
   
 # workflow = StateGraph(GraphState)
@@ -63,7 +67,6 @@ except Exception:
 
 # # workflow.set_initial_state(init_graph_state)
 
-# # workflow.add_node("contextualize", contextualize)
 # workflow.add_node("extract queries", extract_queries)
 # workflow.add_node("web_search", web_search)
 # workflow.add_node("retrieve", retrieve)

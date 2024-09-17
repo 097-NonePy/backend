@@ -4,7 +4,7 @@ warnings.filterwarnings("ignore", category=FutureWarning, module="transformers.t
 
 from fastapi import FastAPI, Request
 from RAG.graph import app as rag_app
-
+from langchain.memory import ConversationBufferMemory
 from dotenv import load_dotenv
 import os
 
@@ -13,6 +13,9 @@ app = FastAPI()
 
 
 load_dotenv()
+memory = ConversationBufferMemory()
+# Create a dictionary to store ConversationBufferMemory instances for each thread
+thread_memories = {}
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -103,7 +106,8 @@ async def process(request: Request):
     question = data.get("question", "")
     # Run
     inputs = {
-        "question": question
+        "question": question,
+        "chat_history": memory.load_memory_variables({})["history"]
     }
 
     response = []
@@ -122,10 +126,17 @@ async def chat(request: dict):
     question = request.get("question")
     thread_id = request.get("thread_id")
 
-    print(question)
+     # Get or create a ConversationBufferMemory instance for this thread
+    if thread_id not in thread_memories:
+        thread_memories[thread_id] = ConversationBufferMemory(return_messages=True)
+    
+    memory = thread_memories[thread_id]
+    chat_history = memory.load_memory_variables({})["history"]
 
+    # Prepare inputs with chat history
     inputs = {
-        "question": question
+        "question": question,
+        "chat_history": chat_history
     }
 
     config = {"configurable": {"thread_id": thread_id}}
@@ -136,8 +147,13 @@ async def chat(request: dict):
         pprint("\n---\n")
 
     # Final generation
-    pprint(value["generation"])
-    return {"answer": value["generation"]}
+    # pprint(value["generation"])
+    # return {"answer": value["generation"]}
+    if final_output and "generation" in final_output:
+        # Add the interaction to memory
+        memory.chat_memory.add_user_message(question)
+        memory.chat_memory.add_ai_message(final_output["generation"])
+    return value
 
 if __name__ == "__main__":
     import uvicorn
