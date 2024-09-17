@@ -1,5 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from dotenv import load_dotenv
+from langchain_core.messages import HumanMessage, AIMessage
 from RAG.agents.contextualize import contextualizer
 from RAG.graph_state import GraphState
 import os
@@ -22,10 +23,16 @@ contextualize_q_prompt = ChatPromptTemplate.from_messages(
 
 def contextualize_question(state):
     question = state["question"]
-    chat_history = state["chat_history"]
-    contextualized_question = contextualizer.invoke({"input": question, "chat_history": chat_history})
+    # chat_history = state["chat_history"]
+    chat_history = GraphState.get_state({"configurable": {"thread_id": "1"}}).chat_history
+    print(chat_history)
+    result = contextualizer.invoke({"input": question, "chat_history": chat_history})
+    print("contextualised result", result.contextualized_question)
+    chat_history.append(HumanMessage(content=result.contextualized_question))
+    state["chat_history"] = chat_history
+
     return {
-        "contextualized_question": contextualized_question,
+        "contextualized_question": result,
         "question": question,
         "state": state
     }

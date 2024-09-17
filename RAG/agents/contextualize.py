@@ -1,6 +1,7 @@
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from pydantic import BaseModel  , Field
 from langchain_mistralai import ChatMistralAI
+from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 import os
 

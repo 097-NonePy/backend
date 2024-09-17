@@ -8,7 +8,7 @@ from RAG.graph import app as rag_app
 from dotenv import load_dotenv
 import os
 
-
+config = {"configurable": {"thread_id": "1"}}
 app = FastAPI()
 
 
@@ -23,7 +23,7 @@ async def test():
         "question": "What is the differnce between sajith premadasa's actions for the health sector and ranil wickramasinghe's actions for the health sector?"
     }
 
-    for output in rag_app.stream(inputs):
+    for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             # Node
             pprint(f"Node '{key}':")
@@ -48,7 +48,7 @@ async def process(request: Request):
     }
 
     response = []
-    for output in rag_app.stream(inputs):
+    for output in rag_app.stream(inputs, config=config):
         node_output = {}
         for key, value in output.items():
             # Node
