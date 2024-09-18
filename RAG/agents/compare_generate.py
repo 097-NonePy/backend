@@ -4,6 +4,27 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_openai import ChatOpenAI
 
+class OutputFormatter(BaseModel):
+    """format the output to be shown in the frontend."""
+
+    namal_text: str = Field(
+        ...,
+        description="The text to be shown in the frontend for namal.",
+    )
+    ranil_text: str = Field(
+        ...,
+        description="The text to be shown in the frontend for ranil.",
+    )
+    sajith_text: str = Field(
+        ...,
+        description="The text to be shown in the frontend for sajith.",
+    )
+    misc_text: str = Field(
+        ...,
+        description="The text to be shown in the frontend for the miscellaneous information. like the conclusion",
+    )
+
+
 template = """
 You are a very vigilant and helpful journalist. Use the following pieces of 
 context to answer the question at the end. Your focus is 2024 presidential election in Sri Lanka.
@@ -32,11 +53,18 @@ sajith premadasa:
 ________________________________________________________________________________
 Question: {question}
 
-Helpful Answer:"""
+Format the output in the following way:
+Any information directly related to namal should be in the namal_text.
+Any information directly related to ranil should be in the ranil_text.
+Any information directly related to sajith should be in the sajith_text.
+Any information that is not related to any of the candidates should be in the misc_text. For an example, The conclusion
+
+"""
 custom_rag_prompt = PromptTemplate.from_template(template)
 
 # LLM
 llm = ChatOpenAI(model="gpt-4o-mini")
+structured_llm_output = llm.with_structured_output(OutputFormatter)
 
 
 # Post-processing
@@ -44,4 +72,4 @@ def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 
-rag_chain = custom_rag_prompt | llm | StrOutputParser()
+rag_chain = custom_rag_prompt | structured_llm_output
