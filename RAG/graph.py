@@ -7,6 +7,8 @@ from RAG.nodes.web_search import web_search
 from RAG.nodes.retrieve import retrieve
 from RAG.nodes.generate import generate
 from RAG.nodes.transform import transform_query
+from RAG.nodes.contextualize_query import contextualize_question as contextualize
+
 
 from RAG.edges.generation_grader import grade_generation_v_documents_and_question
 
@@ -17,8 +19,10 @@ workflow.add_node("retrieve", retrieve)  # retrieve
 workflow.add_node("generate", generate)  # generatae
 workflow.add_node("transform_query", transform_query)  # transform_query
 workflow.add_node("extract queries", extract_queries)
+workflow.add_node("contextualize", contextualize)
 
-workflow.add_edge(START, "extract queries")
+workflow.add_edge(START, "contextualize")
+workflow.add_edge("contextualize", "extract queries")
 workflow.add_edge("extract queries", "web_search")
 workflow.add_edge("extract queries", "retrieve")
 
