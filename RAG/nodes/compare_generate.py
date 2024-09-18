@@ -1,4 +1,4 @@
-from RAG.agents.generate import rag_chain
+from RAG.agents.compare_generate import rag_chain
 
 def generate(state):
     """
@@ -25,7 +25,6 @@ def generate(state):
             "ranil_context": ranil_vector_documents, 
             "sajith_context": sajith_vector_documents, 
             "question": question,
-            "chat_history": state["chat_history"]
         }
     )
 
@@ -34,8 +33,4 @@ def generate(state):
         "question": question, 
         "generation": generation,
         "generated_count": generated_count,
-        "chat_history": [
-            {"role": "user", "content": question},
-            {"role": "assistant", "content": generation}
-        ]
     }

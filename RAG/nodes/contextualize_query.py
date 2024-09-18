@@ -9,6 +9,6 @@ def contextualize_question(state):
     result = contextualizer.invoke({"input": question, "chat_history": chat_history})
 
     return {
-        "contextualized_question": result.contextualized_question,
+        "question": result.contextualized_question,
     }
     

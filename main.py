@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from RAG.graph import app as rag_app
+from RAG.compare_graph import app as compare_app
 
 app = FastAPI()
 
@@ -80,10 +81,7 @@ async def compare(request: dict):
         "question": question
     }
     
-    import uuid
-    thread_id = str(uuid.uuid4())
-    config = {"configurable": {"thread_id": thread_id}}
-    for output in rag_app.stream(inputs, config=config):
+    for output in compare_app.stream(inputs):
         for key, value in output.items():
             pprint(f"Node '{key}':")
             pprint(value, indent=2, width=80, depth=None)
@@ -102,11 +100,10 @@ async def chat(request: dict):
     print(question)
 
     inputs = {
-        "question": "You're a helpful assistant. So please be concise. At most 2, 3 sentences." 
-        +question
+        "question": question
     }
 
-    config = {"configurable": {"thread_id": "1234"}}
+    config = {"configurable": {"thread_id": "abcd"}}
     for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             pprint(f"Node '{key}':")

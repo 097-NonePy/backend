@@ -30,3 +30,4 @@ class GraphState(TypedDict):
     generated_count: int
 
     chat_history: Annotated[List[BaseMessage], add_messages]
+    contextualized_question: str
