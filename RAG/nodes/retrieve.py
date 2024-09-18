@@ -19,9 +19,18 @@ def retrieve(state):
     sajith_vector_search_query = state["sajith_vector_search_query"]
 
     # Retrieval
-    namal_documents = namal_retriever.get_relevant_documents(namal_vector_search_query)
-    ranil_documents = ranil_retriever.get_relevant_documents(ranil_vector_search_query)
-    sajith_documents = sajith_retriever.get_relevant_documents(sajith_vector_search_query)
+    if namal_vector_search_query:
+        namal_documents = namal_retriever.get_relevant_documents(namal_vector_search_query)
+    else:
+        namal_documents = []
+    if ranil_vector_search_query:
+        ranil_documents = ranil_retriever.get_relevant_documents(ranil_vector_search_query)
+    else:
+        ranil_documents = []
+    if sajith_vector_search_query:
+        sajith_documents = sajith_retriever.get_relevant_documents(sajith_vector_search_query)
+    else:
+        sajith_documents = []
 
     return {"namal_vector_search_documents": namal_documents,
              "ranil_vector_search_documents": ranil_documents, 

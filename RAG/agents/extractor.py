@@ -43,6 +43,8 @@ And also their plans for the future of the country is on the vectorstore.
 If the question involves something about a candidate's policies in a past year, then you will have to do a websearch.
 And also if you feel like a web search will be usefull. Do a web search.
 
+If it seems unneccesary to search the vectorstores, then don't search the vectorstores. Keep those queries empty.
+
 After deciding,
 Output the 'namal_vector_search_query': The query that needs to be searched from the vector store of namal.
 And the 'ranil_vector_search_query': The query that needs to be searched from the vector store of ranil.

@@ -30,6 +30,6 @@ vectorstore = Chroma.from_documents(
     documents=all_splits, embedding=OpenAIEmbeddings(), persist_directory="./vectore_stores/manifesto_vectorstore",
 )
 
-sajith_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "sajith"}})
-namal_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "namal"}})
-ranil_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "ranil"}})
+sajith_retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 2, "filter": {"source": "sajith"}})
+namal_retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 2, "filter": {"source": "namal"}})
+ranil_retriever = vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 2, "filter": {"source": "ranil"}})

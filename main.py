@@ -27,7 +27,8 @@ async def test():
         "question": "What is the differnce between sajith premadasa's actions for the health sector and ranil wickramasinghe's actions for the health sector?"
     }
 
-    for output in rag_app.stream(inputs):
+    config = {"configurable": {"thread_id": "1234"}}
+    for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             # Node
             pprint(f"Node '{key}':")
@@ -79,7 +80,10 @@ async def compare(request: dict):
         "question": question
     }
     
-    for output in rag_app.stream(inputs):
+    import uuid
+    thread_id = str(uuid.uuid4())
+    config = {"configurable": {"thread_id": thread_id}}
+    for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             pprint(f"Node '{key}':")
             pprint(value, indent=2, width=80, depth=None)
@@ -98,10 +102,11 @@ async def chat(request: dict):
     print(question)
 
     inputs = {
-        "question": question
+        "question": "You're a helpful assistant. So please be concise. At most 2, 3 sentences." 
+        +question
     }
 
-    config = {"configurable": {"thread_id": thread_id}}
+    config = {"configurable": {"thread_id": "1234"}}
     for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             pprint(f"Node '{key}':")
