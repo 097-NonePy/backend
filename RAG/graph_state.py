@@ -1,6 +1,8 @@
 from typing import List
 
-from typing_extensions import TypedDict
+from typing_extensions import TypedDict, Annotated
+from langgraph.graph.message import add_messages
+from langchain_core.messages.base import BaseMessage
 
 
 class GraphState(TypedDict):
@@ -26,3 +28,5 @@ class GraphState(TypedDict):
     web_search_documents: List[str]
 
     generated_count: int
+
+    chat_history: Annotated[List[BaseMessage], add_messages]
