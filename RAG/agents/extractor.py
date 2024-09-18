@@ -12,23 +12,23 @@ class ExtractQuery(BaseModel):
     """Route a user query to the relevant datasources with subquestions."""
 
     namal_vector_search_query: str = Field(
-        ...,
+        "",
         description="The query to search the vector store of namal.",
     )
     ranil_vector_search_query: str = Field(
-        ...,
+        "",
         description="The query to search the vector store of ranil.",
     )
     sajith_vector_search_query: str = Field(
-        ...,
+        "",
         description="The query to search the vector store of sajith.",
     )
     anura_vector_search_query: str = Field(
-        ...,
+        "",
         description="The query to search the vector store of anura.",
     )
     web_search_query: str = Field(
-        ...,
+        "",
         description="The query to search the web.",
     )
 
@@ -49,6 +49,7 @@ If the question involves something about a candidate's policies in a past year, 
 And also if you feel like a web search will be usefull. Do a web search.
 
 If it seems unneccesary to search the vectorstores, then don't search the vectorstores. Keep those queries empty.
+Keep web search query empty if it is not required.
 
 After deciding,
 Output the 'namal_vector_search_query': The query that needs to be searched from the vector store of namal.
