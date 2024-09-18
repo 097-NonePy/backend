@@ -19,6 +19,10 @@ class OutputFormatter(BaseModel):
         ...,
         description="The text to be shown in the frontend for sajith.",
     )
+    anura_text: str = Field(
+        ...,
+        description="The text to be shown in the frontend for anura.",
+    )
     misc_text: str = Field(
         ...,
         description="The text to be shown in the frontend for the miscellaneous information. like the conclusion",
@@ -49,6 +53,10 @@ ranil wickramasinghe:
 ________________________________________________________________________________
 sajith premadasa:
 {sajith_context}
+
+________________________________________________________________________________
+anura kumara:
+{anura_context}
 
 ________________________________________________________________________________
 Question: {question}

@@ -19,12 +19,14 @@ class GraphState(TypedDict):
     namal_vector_search_query: str
     ranil_vector_search_query: str
     sajith_vector_search_query: str
+    anura_vector_search_query: str
     web_search_query: str
     generation: str
 
     namal_vector_search_documents: List[str]
     ranil_vector_search_documents: List[str]
     sajith_vector_search_documents: List[str]
+    anura_vector_search_documents: List[str]
     web_search_documents: List[str]
 
     generated_count: int

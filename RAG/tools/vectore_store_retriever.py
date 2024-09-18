@@ -1,11 +1,12 @@
 from langchain_community.document_loaders import TextLoader
 import os
 
-file_names = ["namal.txt", "ranil.txt", "sajith.txt"]
+file_names = ["namal.txt", "ranil.txt", "sajith.txt", "anura.txt"]
 file_name_to_source = {
     "namal.txt": "namal",
     "ranil.txt": "ranil",
     "sajith.txt": "sajith",
+    "anura.txt": "anura",
 }
 docs = []
 
@@ -33,3 +34,4 @@ vectorstore = Chroma.from_documents(
 sajith_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "sajith"}})
 namal_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "namal"}})
 ranil_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "ranil"}})
+anura_retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 6, "filter": {"source": "anura"}})

@@ -16,6 +16,7 @@ def generate(state):
     namal_vector_documents = state["namal_vector_search_documents"]
     ranil_vector_documents = state["ranil_vector_search_documents"]
     sajith_vector_documents = state["sajith_vector_search_documents"]
+    anura_vector_documents = state["anura_vector_search_documents"]
 
     # RAG generation
     generation = rag_chain.invoke(
@@ -24,6 +25,7 @@ def generate(state):
             "namal_context": namal_vector_documents, 
             "ranil_context": ranil_vector_documents, 
             "sajith_context": sajith_vector_documents, 
+            "anura_context": anura_vector_documents,
             "question": question,
             "chat_history": state["chat_history"]
         }

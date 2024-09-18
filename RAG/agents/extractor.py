@@ -23,6 +23,10 @@ class ExtractQuery(BaseModel):
         ...,
         description="The query to search the vector store of sajith.",
     )
+    anura_vector_search_query: str = Field(
+        ...,
+        description="The query to search the vector store of anura.",
+    )
     web_search_query: str = Field(
         ...,
         description="The query to search the web.",
@@ -35,7 +39,8 @@ structured_llm_router = llm.with_structured_output(ExtractQuery)
 system = """You are an expert at routing a user question to a vectorstore or web search.
 There are three vectorstores. One contains documents related to Manifests of political candidate Sajith Premadasa.
 Another contains documents related to Manifests of political candidate Namal Rajapaksa.
-The third contains documents related to Manifests of political candidate Ranil Wickramasinghe.
+The third contains documents related to Manifests of political candidate Ranil Wickramasinghe. There is another
+related to Anura Kumara Dissanayake.
 
 for an example, what this candidate do for education sector, health sector etc is on the vectorstore.
 And also their plans for the future of the country is on the vectorstore.
@@ -49,6 +54,7 @@ After deciding,
 Output the 'namal_vector_search_query': The query that needs to be searched from the vector store of namal.
 And the 'ranil_vector_search_query': The query that needs to be searched from the vector store of ranil.
 And the 'sajith_vector_search_query': The query that needs to be searched from the vector store of sajith.
+And the 'anura_vector_search_query': The query that needs to be searched from the vector store of anura.
 And the 'web_search_query': The query that needs to be searched from the web.
 """
 route_prompt = ChatPromptTemplate.from_messages(

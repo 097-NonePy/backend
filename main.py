@@ -64,6 +64,8 @@ async def compare(request: dict):
         candidates.append("sajith premadasa")
     if request.get("ranil") is True:
         candidates.append("ranil wickramasinghe")
+    if request.get("anura") is True:
+        candidates.append("anura kumara")
 
     if len(candidates) == 0:
         return {"error": "At least one candidate must be provided"}
