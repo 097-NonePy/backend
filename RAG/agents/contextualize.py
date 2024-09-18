@@ -21,6 +21,7 @@ contextualize_q_system_prompt = (
     "\n3. Include any relevant context from previous messages that's necessary to understand the question."
     "\n4. Ensure the reformulated question is clear, specific, and self-contained."
     "\nDo NOT answer the question, just reformulate it to be self-explanatory."
+    'If there is no chat history ot chat history seems not enough, just pass on the input question without change'
 )
 
 llm = ChatOpenAI(model="gpt-4o-mini")
