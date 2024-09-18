@@ -103,7 +103,7 @@ async def chat(request: dict):
         "question": question
     }
 
-    config = {"configurable": {"thread_id": "abcd"}}
+    config = {"configurable": {"thread_id": thread_id}}
     for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             pprint(f"Node '{key}':")
