@@ -2,8 +2,6 @@ from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from pydantic import BaseModel  , Field
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
-from dotenv import load_dotenv
-import os
 
 class ContextualizeQuestion(BaseModel):
   """Contextualize the question."""
