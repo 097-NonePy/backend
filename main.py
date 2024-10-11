@@ -99,10 +99,24 @@ async def chat(request: dict):
     question = request.get("question")
     thread_id = request.get("thread_id")
 
-    print(question)
+    language = request.get("language", "en")
+
+    language_prompt = ""
+    if language == "si":
+        language_prompt = "Answer in Sinhala, "
+    elif language == "ta":
+        language_prompt = "Answer in Tamil, "
+    elif language == "en":
+        language_prompt = "Answer in English, "
+    elif language == "seng":
+        language_prompt = "Answer in Singlish, "
+    elif language == "slang":
+        language_prompt = "Answer in gen z slang, "
+
+    print(language_prompt + question)
 
     inputs = {
-        "question": question
+        "question": language_prompt + question
     }
 
     config = {"configurable": {"thread_id": thread_id}}
