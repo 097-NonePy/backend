@@ -96,10 +96,12 @@ async def compare(request: dict):
 
 @app.post("/chat")
 async def chat(request: dict):
+    from fastapi.responses import StreamingResponse
     from pprint import pprint
+    import asyncio
+
     question = request.get("question")
     thread_id = request.get("thread_id")
-
     language = request.get("language", "en")
 
     inputs = {
@@ -109,12 +111,15 @@ async def chat(request: dict):
 
     config = {"configurable": {"thread_id": thread_id}}
 
-    for output in rag_app.stream(inputs, config=config):
-        for key, value in output.items():
-            pprint(f"Node '{key}':")
-            pprint(value, indent=2, width=80, depth=None)
-        pprint("\n---\n")
+    async def event_stream():
+        for output in rag_app.stream(inputs, config=config):
+            print("PRINTING OUTPUT: ", output)
+            for key, value in output.items():
+                pprint(f"Node '{key}':")
+                pprint(value, indent=2, width=80, depth=None)
+                if "translated_generation" in value:
+                    print("PRINTING TRANSLATED GENERATION: ", value["translated_generation"])
+                    yield f"{value['translated_generation']}\n\n"  # Stream the generated response
+            await asyncio.sleep(0)  # Yield control to the event loop
 
-    # Final generation
-    pprint(value["translated_generation"])
-    return {"answer": value["translated_generation"]}
+    return StreamingResponse(event_stream(), media_type="text/event-stream")
