@@ -11,7 +11,7 @@ class GradeDocuments(BaseModel):
     )
 
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o")
 structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
 # Prompt

@@ -33,3 +33,6 @@ class GraphState(TypedDict):
 
     chat_history: Annotated[List[BaseMessage], add_messages]
     contextualized_question: str
+
+    language: str
+    translated_generation: str

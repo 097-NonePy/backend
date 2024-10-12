@@ -71,7 +71,7 @@ Any information that is not related to any of the candidates should be in the mi
 custom_rag_prompt = PromptTemplate.from_template(template)
 
 # LLM
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o")
 structured_llm_output = llm.with_structured_output(OutputFormatter)
 
 

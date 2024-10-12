@@ -40,7 +40,7 @@ Helpful Answer:"""
 custom_rag_prompt = PromptTemplate.from_template(template)
 
 # LLM
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o")
 
 
 # Post-processing

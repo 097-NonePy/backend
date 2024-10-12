@@ -13,7 +13,7 @@ class GradeHallucinations(BaseModel):
 
 
 # LLM with function call
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o")
 structured_llm_grader = llm.with_structured_output(GradeHallucinations)
 
 # Prompt

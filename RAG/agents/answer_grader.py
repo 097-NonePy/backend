@@ -15,7 +15,7 @@ class GradeAnswer(BaseModel):
 
 
 # LLM with function call
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
 structured_llm_grader = llm.with_structured_output(GradeAnswer)
 
 # Prompt

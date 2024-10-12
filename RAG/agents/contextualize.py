@@ -22,9 +22,10 @@ contextualize_q_system_prompt = (
     "\n4. Ensure the reformulated question is clear, specific, and self-contained."
     "\nDo NOT answer the question, just reformulate it to be self-explanatory."
     'If there is no chat history ot chat history seems not enough, just pass on the input question without change'
+    'If the input is not on english, translate it to english before contextualizing'
 )
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o")
 structured_llm_router = llm.with_structured_output(ContextualizeQuestion)
 
 contextualize_q_prompt = ChatPromptTemplate.from_messages(

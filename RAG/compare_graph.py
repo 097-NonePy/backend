@@ -7,6 +7,7 @@ from RAG.nodes.web_search import web_search
 from RAG.nodes.retrieve import retrieve
 from RAG.nodes.compare_generate import generate
 from RAG.nodes.transform import transform_query
+from RAG.nodes.translate import translate  # Add this import
 
 
 from RAG.edges.generation_grader import grade_generation_v_documents_and_question

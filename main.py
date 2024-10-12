@@ -25,7 +25,8 @@ async def test():
 
     # Run
     inputs = {
-        "question": "What is the differnce between sajith premadasa's actions for the health sector and ranil wickramasinghe's actions for the health sector?"
+        "question": "What is the differnce between sajith premadasa's actions for the health sector and ranil wickramasinghe's actions for the health sector?",
+        "language": "en"
     }
 
     config = {"configurable": {"thread_id": "1234"}}
@@ -101,25 +102,13 @@ async def chat(request: dict):
 
     language = request.get("language", "en")
 
-    language_prompt = ""
-    if language == "si":
-        language_prompt = "Answer in Sinhala, "
-    elif language == "ta":
-        language_prompt = "Answer in Tamil, "
-    elif language == "en":
-        language_prompt = "Answer in English, "
-    elif language == "seng":
-        language_prompt = "Answer in Singlish, "
-    elif language == "slang":
-        language_prompt = "Answer in gen z slang, "
-
-    print(language_prompt + question)
-
     inputs = {
-        "question": language_prompt + question
+        "question": question,
+        "language": language
     }
 
     config = {"configurable": {"thread_id": thread_id}}
+
     for output in rag_app.stream(inputs, config=config):
         for key, value in output.items():
             pprint(f"Node '{key}':")
@@ -127,5 +116,5 @@ async def chat(request: dict):
         pprint("\n---\n")
 
     # Final generation
-    pprint(value["generation"])
-    return {"answer": value["generation"]}
+    pprint(value["translated_generation"])
+    return {"answer": value["translated_generation"]}

@@ -32,7 +32,7 @@ class ExtractQuery(BaseModel):
         description="The query to search the web.",
     )
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o")
 structured_llm_router = llm.with_structured_output(ExtractQuery)
 
 # Prompt
